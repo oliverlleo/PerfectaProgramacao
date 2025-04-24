@@ -1,0 +1,28 @@
+.download-links {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border-left: 4px solid #28a745;
+}
+
+.download-links h4 {
+    margin-top: 0;
+    color: #28a745;
+    font-size: 1.1rem;
+}
+
+.download-links p {
+    margin: 10px 0;
+    color: #333;
+}
+
+.download-links ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.download-links li {
+    margin: 5px 0;
+    color: #555;
+}

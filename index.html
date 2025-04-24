@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfecta - Sistema de Ordens de Serviço</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/download-links.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/os-pdf-generator.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="img/logo.png" alt="Perfecta Logo" class="logo">
+            <h1>Sistema de Ordens de Serviço</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active" data-section="cadastro">Cadastro</a></li>
+                <li><a href="#" data-section="programacao">Programação de Trabalho</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="cadastro" class="active-section">
+            <h2>Cadastro de Ordem de Serviço</h2>
+            
+            <!-- Campo de data global para todas as ordens -->
+            <div class="data-global-container">
+                <div class="form-group data-global">
+                    <label for="data-global">Data da Programação:</label>
+                    <input type="date" id="data-global" name="data-global" required>
+                </div>
+            </div>
+            
+            <div id="ordens-container">
+                <div class="ordem-item">
+                    <form id="os-form" class="os-form">
+                        <div class="form-group">
+                            <label for="cliente">Cliente:</label>
+                            <input type="text" id="cliente" name="cliente" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="endereco">Endereço:</label>
+                            <input type="text" id="endereco" name="endereco" placeholder="Endereço completo" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="prestadores">Prestadores do Serviço:</label>
+                            <div class="select-funcionarios">
+                                <div class="funcionarios-options">
+                                    <label><input type="checkbox" name="funcionario" value="Lucas"> Lucas</label>
+                                    <label><input type="checkbox" name="funcionario" value="Rubens"> Rubens</label>
+                                    <label><input type="checkbox" name="funcionario" value="Felipe"> Felipe</label>
+                                    <label><input type="checkbox" name="funcionario" value="Dino"> Dino</label>
+                                    <label><input type="checkbox" name="funcionario" value="Javier"> Javier</label>
+                                    <label><input type="checkbox" name="funcionario" value="Carlos"> Carlos</label>
+                                    <label><input type="checkbox" name="funcionario" value="Alan"> Alan</label>
+                                    <label><input type="checkbox" name="funcionario" value="Pazzis"> Pazzis</label>
+                                    <label><input type="checkbox" name="funcionario" value="João"> João</label>
+                                    <label><input type="checkbox" name="funcionario" value="Rey"> Rey</label>
+                                    <label><input type="checkbox" name="funcionario" value="Jonathan"> Jonathan</label>
+                                    <label><input type="checkbox" name="funcionario" value="Leonardo"> Leonardo</label>
+                                    <label><input type="checkbox" name="funcionario" value="Yuzuk"> Yuzuk</label>
+                                </div>
+                                <input type="hidden" id="prestadores" name="prestadores" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="servico">Serviço a ser executado:</label>
+                            <textarea id="servico" name="servico" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Tipo de Serviço:</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="tipo" value="fabrica" required> Serviço de Fábrica
+                                </label>
+                                <label>
+                                    <input type="radio" name="tipo" value="instalacao" required> Instalação
+                                </label>
+                                <label>
+                                    <input type="radio" name="tipo" value="manutencao" required> Manutenção
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    <button type="button" class="btn-add-ordem">+ Adicionar outra ordem</button>
+                </div>
+            </div>
+            
+            <div class="form-buttons">
+                <button type="button" id="btn-cadastrar" class="btn-primary">Cadastrar</button>
+                <button type="button" id="btn-limpar" class="btn-secondary">Limpar</button>
+            </div>
+        </section>
+        
+        <section id="programacao">
+            <div class="report-header">
+                <div class="report-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h2>Programação de Trabalho</h2>
+                </div>
+                <div class="report-date" id="current-date"></div>
+            </div>
+            
+            <div class="export-options">
+                <button id="btn-export-pdf" class="btn-export">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
+                <button id="btn-export-jpeg" class="btn-export">
+                    <i class="fas fa-file-image"></i> Exportar JPEG
+                </button>
+                <button id="btn-export-text" class="btn-export">
+                    <i class="fas fa-file-alt"></i> Exportar Texto (WhatsApp)
+                </button>
+                <button id="btn-limpar-dados" class="btn-export btn-danger">
+                    <i class="fas fa-trash-alt"></i> Limpar Dados
+                </button>
+                <button id="btn-gerar-os" class="btn-export btn-success">
+                    <i class="fas fa-file-contract"></i> Gerar OS
+                </button>
+            </div>
+            
+            <div id="report-content">
+                <div class="section-header obras-externas">
+                    <i class="fas fa-hard-hat"></i>
+                    <h3>Obras Externas</h3>
+                </div>
+                
+                <div id="obras-externas-list" class="service-list">
+                    <!-- Ordens de serviço de instalação e manutenção serão inseridas aqui -->
+                </div>
+                
+                <div class="section-header servicos-fabrica">
+                    <i class="fas fa-industry"></i>
+                    <h3>Serviços de Fábrica</h3>
+                </div>
+                
+                <div id="servicos-fabrica-list" class="service-list">
+                    <!-- Ordens de serviço de fábrica serão inseridas aqui -->
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Perfecta - Sistema de Ordens de Serviço</p>
+    </footer>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>
